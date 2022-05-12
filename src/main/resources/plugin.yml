@@ -1,0 +1,5 @@
+name: Register
+version: '${project.version}'
+main: com.cosine.register.Register
+authors: [ Cosine_A ]
+description: 회원가입 플러그인

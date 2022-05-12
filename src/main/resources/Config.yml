@@ -1,0 +1,8 @@
+Yml: true
+ps: "Yml을 끄면 자동으로 MySQL이 활성화됩니다."
+MySQL:
+  host: localhost
+  port: 3306
+  user: root
+  password: qlalfqjsgh
+
