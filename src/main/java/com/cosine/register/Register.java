@@ -1,9 +1,6 @@
 package com.cosine.register;
 
-import com.cosine.config.Config;
-import com.cosine.config.ConfigLogin;
-import com.cosine.config.ConfigSignUp;
-import com.cosine.config.ConfigEvent;
+import com.cosine.config.*;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 

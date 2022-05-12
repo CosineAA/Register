@@ -6,7 +6,10 @@ Yml:
     Login: §c§l/로그인 [비밀번호]를 입력해주세요.
   Success:
     SignUp: §c§l회원가입이 정상적으로 완료되었습니다!
-    Login: §c§로그인이 정상적으로 완료되었습니다!
+    Login: §c§l로그인이 정상적으로 완료되었습니다!
+  Error:
+    SignUp: §c§l입력한 비밀번호와 확인 비밀번호가 서로 다릅니다!
+    Login: §c§l비밀번호가 틀렸습니다!
 MySQL:
   host: localhost
   port: 3306
