@@ -3,3 +3,7 @@ version: '${project.version}'
 main: com.cosine.register.Register
 authors: [ Cosine_A ]
 description: 회원가입 플러그인
+
+commands:
+  회원가입:
+  로그인:

@@ -1,6 +1,5 @@
 package com.cosine.config;
 
-import com.cosine.register.Register;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -8,15 +7,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.*;
 
 public class Config {
-    Register Plugin;
+
     public String fileName;
     private JavaPlugin plugin;
     public File ConfigFile;
     private FileConfiguration Configuration;
-
-    public Config(Register Plugin) {
-        this.Plugin = Plugin;
-    }
 
     public Config(JavaPlugin plugin, String fileName) {
         if (plugin == null) {

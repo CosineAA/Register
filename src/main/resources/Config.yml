@@ -1,5 +1,12 @@
-Yml: true
-ps: "Yml을 끄면 자동으로 MySQL이 활성화됩니다."
+Yml:
+  도움말: main을 false로 바꾸면 자동으로 MySQL이 활성화됩니다.
+  main: true
+  Message:
+    SignUp: §c§l/회원가입 [비밀번호]를 입력해주세요.
+    Login: §c§l/로그인 [비밀번호]를 입력해주세요.
+  Success:
+    SignUp: §c§l회원가입이 정상적으로 완료되었습니다!
+    Login: §c§로그인이 정상적으로 완료되었습니다!
 MySQL:
   host: localhost
   port: 3306
