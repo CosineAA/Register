@@ -24,7 +24,7 @@ public class ConfigEvent implements Listener {
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
         if(!register.contains(uuid.toString())) {
-            
+
         }
     }
 }
