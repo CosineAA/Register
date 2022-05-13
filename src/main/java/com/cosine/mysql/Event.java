@@ -2,7 +2,7 @@ package com.cosine.mysql;
 
 import com.cosine.config.Config;
 import com.cosine.register.Register;
-import com.cosine.utils.Utils;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,28 +10,30 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
-import static com.cosine.utils.Utils.join;
+import static com.cosine.register.Register.join;
 
 public class Event implements Listener {
 
     Register plugin;
     MySQL mysql;
-    Utils utils;
+
+    ConfigurationSection config;
 
     public Event(Register plugin) {
         this.plugin = plugin;
-        utils = plugin.utils();
         mysql = plugin.mysql();
+        config = plugin.config().getConfig();
     }
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         if(!mysql.Contains_Player(player.getUniqueId())) {
-            utils.Register(player, "SignUp");
+            Register(player, "SignUp");
         } else {
-            utils.Register(player, "Login");
+            Register(player, "Login");
         }
     }
 
@@ -51,5 +53,34 @@ public class Event implements Listener {
         if(!join.containsKey(player.getUniqueId())) {
             event.setCancelled(true);
         }
+    }
+    public void Register(Player player, String choice) {
+        String loop = config.getString("Yml.Message." + choice);
+        String kick = "아무 행동도 하지 않아 자동으로 추방되었습니다.";
+        new BukkitRunnable() {
+            int time = 20;
+            @Override
+            public void run() {
+                if(choice.equals("SignUp")) {
+                    if (mysql.Contains_Player(player.getUniqueId())) {
+                        cancel();
+                        return;
+                    }
+                }
+                if(choice.equals("Login")) {
+                    if(join.containsKey(player.getUniqueId())) {
+                        cancel();
+                        return;
+                    }
+                }
+//                if(time == 0) {
+//                    cancel();
+//                    Bukkit.getScheduler().runTask(plugin, () ->  player.kickPlayer(kick));
+//                    return;
+//                }
+                player.sendMessage(loop);
+                time--;
+            }
+        }.runTaskTimerAsynchronously(plugin, 0L, 20L);
     }
 }

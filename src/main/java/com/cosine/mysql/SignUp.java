@@ -2,20 +2,18 @@ package com.cosine.mysql;
 
 import com.cosine.config.Config;
 import com.cosine.register.Register;
-import com.cosine.utils.Utils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
-import static com.cosine.utils.Utils.join;
+import static com.cosine.register.Register.join;
 
 public class SignUp implements CommandExecutor {
 
     Register plugin;
     MySQL mysql;
-    Utils utils;
 
     Config cfg;
     Config registerConfig;
@@ -24,7 +22,6 @@ public class SignUp implements CommandExecutor {
 
     public SignUp(Register plugin) {
         this.plugin = plugin;
-        utils = plugin.utils();
         mysql = plugin.mysql();
         registerConfig = plugin.register();
         cfg = plugin.config();

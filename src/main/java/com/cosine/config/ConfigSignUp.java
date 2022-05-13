@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
-import static com.cosine.utils.Utils.join;
+import static com.cosine.register.Register.join;
 
 public class ConfigSignUp implements CommandExecutor {
 

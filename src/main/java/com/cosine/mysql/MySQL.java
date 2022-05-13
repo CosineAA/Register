@@ -12,15 +12,17 @@ public class MySQL {
 
     Register plugin;
 
+    String result;
+
     String url;
     String user;
     String password;
 
-    public MySQL(Register plugin) {
+    public MySQL(Register plugin, String url, String user, String password) {
         this.plugin = plugin;
-        url = plugin.url;
-        user = plugin.user;
-        password = plugin.password;
+        this.url = url;
+        this.user = user;
+        this.password = password;
     }
 
     public void Create_DataBase(String db) {
@@ -65,12 +67,7 @@ public class MySQL {
             pstmt = connection.prepareStatement(url);
 
             String create = "create table if not exists " + table + "(uuid varchar(100) not null, password varchar(20) not null);";
-            boolean success = pstmt.execute(create);
-            if(!success) {
-                plugin.getLogger().info("Table이 이미 존재하거나 Table 생성에 실패하였습니다.");
-            } else {
-                plugin.getLogger().info("Table 생성에 성공하였습니다.");
-            }
+            pstmt.execute(create);
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
@@ -105,7 +102,7 @@ public class MySQL {
         }
         return false;
     }
-    public void Set_Password(UUID uuid, String password) {
+    public void Set_Password(UUID uuid, String pass) {
         Connection connection = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -117,7 +114,7 @@ public class MySQL {
             String sql = "insert into players values(?, ?)";
             pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, uuid.toString());
-            pstmt.setString(2, password);
+            pstmt.setString(2, pass);
             pstmt.executeUpdate();
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -131,24 +128,24 @@ public class MySQL {
     }
     public String Get_Password(UUID uuid) {
         ExecutorService service = Executors.newFixedThreadPool(1);
-        service.submit(() -> new Callable<String>() {
+        Runnable runnable = new Runnable() {
             @Override
-            public String call() throws Exception {
+            public void run() {
                 Connection connection = null;
                 PreparedStatement pstmt = null;
                 ResultSet rs = null;
                 try {
                     Class.forName("com.mysql.jdbc.Driver");
 
-                    connection = DriverManager.getConnection(url, user, password);
+                    connection = DriverManager.getConnection(url + "/registers", user, password);
 
-                    String sql = "select * from registers";
+                    String sql = "select * from players";
 
                     pstmt = connection.prepareStatement(sql);
                     rs = pstmt.executeQuery();
                     while(rs.next()) {
                         if(rs.getString("uuid").equals(uuid.toString())) {
-                            return rs.getString("password");
+                            result = rs.getString("password");
                         }
                     }
                 } catch (SQLException | ClassNotFoundException e) {
@@ -160,9 +157,10 @@ public class MySQL {
                         e.printStackTrace();
                     }
                 }
-                return null;
             }
-        });
-        return null;
+        };
+        service.submit(runnable);
+        service.shutdown();
+        return result;
     }
 }

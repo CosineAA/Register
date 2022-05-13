@@ -5,15 +5,16 @@ import com.cosine.mysql.Event;
 import com.cosine.mysql.Login;
 import com.cosine.mysql.MySQL;
 import com.cosine.mysql.SignUp;
-import com.cosine.utils.Utils;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.HashMap;
+import java.util.UUID;
 
 public final class Register extends JavaPlugin {
 
     private Config config;
     private Config register;
     private MySQL mysql;
-    private Utils utils;
 
     public String host;
     public String port;
@@ -22,12 +23,11 @@ public final class Register extends JavaPlugin {
 
     public String url;
 
+    public static HashMap<UUID, Boolean> join = new HashMap<>();
+
     @Override
     public void onEnable() {
         getLogger().info("회원가입 플러그인 활성화");
-
-        mysql = new MySQL(this);
-        utils = new Utils(this);
 
         config = new Config(this, "Config.yml");
         register = new Config(this, "Data.yml");
@@ -35,18 +35,23 @@ public final class Register extends JavaPlugin {
         config.saveDefaultConfig();
         register.saveDefaultConfig();
 
-        host = config.getConfig().getString("MySQL.host");
-        port = config.getConfig().getString("MySQL.port");
-        user = config.getConfig().getString("MySQL.user");
-        password = config.getConfig().getString("MySQL.password");
-
-        url = "jdbc:mysql://" + host + ":" + port;
-
         if(config().getConfig().getBoolean("Yml.main")) {
+            getServer().getLogger().info("Yml이 활성화 되었습니다.");
             getCommand("회원가입").setExecutor(new ConfigSignUp(this));
             getCommand("로그인").setExecutor(new ConfigLogin(this));
             getServer().getPluginManager().registerEvents(new ConfigEvent(this), this);
         } else {
+            getServer().getLogger().info("MySQL이 활성화 되었습니다.");
+
+            host = config.getConfig().getString("MySQL.host");
+            port = config.getConfig().getString("MySQL.port");
+            user = config.getConfig().getString("MySQL.user");
+            password = config.getConfig().getString("MySQL.password");
+
+            url = "jdbc:mysql://" + host + ":" + port;
+
+            mysql = new MySQL(this, url, user, password);
+
             mysql.Create_DataBase("registers");
             mysql.Create_Table("players");
             getCommand("회원가입").setExecutor(new SignUp(this));
@@ -60,7 +65,10 @@ public final class Register extends JavaPlugin {
         getLogger().info("회원가입 플러그인 비활성화");
     }
 
-    public Utils utils() {return this.utils;}
+    private static Register instance;
+    public Register() {instance = this;}
+    public static Register getInstance() {return instance;}
+
     public MySQL mysql() {
         return this.mysql;
     }
