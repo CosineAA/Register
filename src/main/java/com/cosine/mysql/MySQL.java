@@ -140,9 +140,11 @@ public class MySQL {
                 try {
                     Class.forName("com.mysql.jdbc.Driver");
 
-                    connection = DriverManager.getConnection(url + "/registers", user, password);
+                    connection = DriverManager.getConnection(url, user, password);
 
-                    pstmt = connection.prepareStatement(url);
+                    String sql = "select * from registers";
+
+                    pstmt = connection.prepareStatement(sql);
                     rs = pstmt.executeQuery();
                     while(rs.next()) {
                         if(rs.getString("uuid").equals(uuid.toString())) {
