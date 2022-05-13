@@ -19,19 +19,10 @@ public class Event implements Listener {
     MySQL mysql;
     Utils utils;
 
-    Config cfg;
-    Config registerConfig;
-    ConfigurationSection config;
-    ConfigurationSection register;
-
     public Event(Register plugin) {
         this.plugin = plugin;
         utils = plugin.utils();
         mysql = plugin.mysql();
-        registerConfig = plugin.register();
-        cfg = plugin.config();
-        register = plugin.register().getConfig();
-        config = plugin.config().getConfig();
     }
 
     @EventHandler
