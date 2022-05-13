@@ -4,9 +4,10 @@ import com.cosine.register.Register;
 
 import java.sql.*;
 import java.util.UUID;
-import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class MySQL {
 
@@ -126,8 +127,7 @@ public class MySQL {
             }
         }
     }
-    public String Get_Password(UUID uuid) {
-        ExecutorService service = Executors.newFixedThreadPool(1);
+    public String Get_Password(UUID uuid) throws ExecutionException, InterruptedException {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -146,6 +146,8 @@ public class MySQL {
                     while(rs.next()) {
                         if(rs.getString("uuid").equals(uuid.toString())) {
                             result = rs.getString("password");
+                        } else {
+                            result = "틀림";
                         }
                     }
                 } catch (SQLException | ClassNotFoundException e) {
@@ -159,8 +161,8 @@ public class MySQL {
                 }
             }
         };
-        service.submit(runnable);
-        service.shutdown();
+        Future<String> future = (Future<String>) FixedThread.service.submit(runnable);
+        future.get();
         return result;
     }
 }
