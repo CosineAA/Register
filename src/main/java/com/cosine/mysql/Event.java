@@ -16,7 +16,7 @@ public class Event implements Listener {
     final Register plugin;
     final MySQL mysql;
 
-    private final ConfigurationSection config;
+    final ConfigurationSection config;
 
     public Event(Register plugin) {
         this.plugin = plugin;
