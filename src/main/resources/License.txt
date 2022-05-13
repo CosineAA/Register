@@ -1,4 +1,4 @@
-Register plugin
+Register
 코사인(Cosine_A)
 https://github.com/CosineAA/Register
 CC BY-NC(저작자 표시-비영리)
