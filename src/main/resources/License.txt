@@ -1,4 +1,4 @@
-회원가입 플러그인 by 코사인(Cosine_A), CC BY NC
+Register plugin by 코사인(Cosine_A), CC BY NC
 
 https://github.com/CosineAA/Register
 
