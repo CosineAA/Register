@@ -25,17 +25,21 @@ public final class Register extends JavaPlugin {
     @Override
     public void onEnable() {
         getLogger().info("회원가입 플러그인 활성화");
+
         mysql = new MySQL(this);
         utils = new Utils(this);
+
         config = new Config(this, "Config.yml");
-        config.saveDefaultConfig();
         register = new Config(this, "Data.yml");
+
+        config.saveDefaultConfig();
         register.saveDefaultConfig();
 
         host = config.getConfig().getString("MySQL.host");
         port = config.getConfig().getString("MySQL.port");
         user = config.getConfig().getString("MySQL.user");
         password = config.getConfig().getString("MySQL.password");
+
         url = "jdbc:mysql://" + host + ":" + port;
 
         if(config().getConfig().getBoolean("Yml.main")) {
@@ -55,10 +59,6 @@ public final class Register extends JavaPlugin {
     public void onDisable() {
         getLogger().info("회원가입 플러그인 비활성화");
     }
-
-    private static Register instance;
-    public Register() {instance = this;}
-    public static Register getInstance() {return instance;}
 
     public Utils utils() {return this.utils;}
     public MySQL mysql() {
