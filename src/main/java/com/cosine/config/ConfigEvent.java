@@ -6,9 +6,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import static com.cosine.register.Register.join;
@@ -44,6 +42,20 @@ public class ConfigEvent implements Listener {
         Player player = event.getPlayer();
         if(join.containsKey(player.getUniqueId())) {
             join.remove(player.getUniqueId());
+        }
+    }
+    @EventHandler
+    public void onChat(AsyncPlayerChatEvent event) {
+        Player player = event.getPlayer();
+        if(!join.containsKey(player.getUniqueId())) {
+            event.setCancelled(true);
+        }
+    }
+    @EventHandler
+    public void onInteractEvent(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+        if(!join.containsKey(player.getUniqueId())) {
+            event.setCancelled(true);
         }
     }
     @EventHandler

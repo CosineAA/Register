@@ -50,7 +50,7 @@ public class Event implements Listener {
         }
     }
     @EventHandler
-    public void onChat(PlayerInteractEvent event) {
+    public void onInteractEvent(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         if(!join.containsKey(player.getUniqueId())) {
             event.setCancelled(true);
