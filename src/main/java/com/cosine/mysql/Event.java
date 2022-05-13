@@ -7,9 +7,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import static com.cosine.register.Register.join;
@@ -45,6 +43,20 @@ public class Event implements Listener {
         }
     }
     @EventHandler
+    public void onChat(AsyncPlayerChatEvent event) {
+        Player player = event.getPlayer();
+        if(!join.containsKey(player.getUniqueId())) {
+            event.setCancelled(true);
+        }
+    }
+    @EventHandler
+    public void onChat(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+        if(!join.containsKey(player.getUniqueId())) {
+            event.setCancelled(true);
+        }
+    }
+    @EventHandler
     public void onMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
         if(!mysql.Contains_Player(player.getUniqueId())) {
@@ -73,11 +85,11 @@ public class Event implements Listener {
                         return;
                     }
                 }
-//                if(time == 0) {
-//                    cancel();
-//                    Bukkit.getScheduler().runTask(plugin, () ->  player.kickPlayer(kick));
-//                    return;
-//                }
+                if(time == 0) {
+                    cancel();
+                    Bukkit.getScheduler().runTask(plugin, () ->  player.kickPlayer(kick));
+                    return;
+                }
                 player.sendMessage(loop);
                 time--;
             }

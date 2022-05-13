@@ -161,7 +161,7 @@ public class MySQL {
                 }
             }
         };
-        Future<String> future = (Future<String>) FixedThread.service.submit(runnable);
+        Future<?> future = FixedThread.service.submit(runnable);
         future.get();
         return result;
     }
