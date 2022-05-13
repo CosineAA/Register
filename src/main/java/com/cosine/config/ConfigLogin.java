@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
-import static com.cosine.config.ConfigEvent.join;
+import static com.cosine.utils.Utils.join;
 
 public class ConfigLogin implements CommandExecutor {
 

@@ -3,6 +3,10 @@ package com.cosine.mysql;
 import com.cosine.register.Register;
 
 import java.sql.*;
+import java.util.UUID;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MySQL {
 
@@ -76,5 +80,87 @@ public class MySQL {
                 e.printStackTrace();
             }
         }
+    }
+    public Boolean Contains_Player(UUID uuid) {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+
+            connection = DriverManager.getConnection(url + "/registers", user, password);
+
+            pstmt = connection.prepareStatement(url);
+            String name = uuid.toString();
+            rs = pstmt.executeQuery("select * from players where uuid = '" + name + "'");
+            return rs.next();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+    public void Set_Password(UUID uuid, String password) {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+
+            connection = DriverManager.getConnection(url + "/registers", user, password);
+
+            String sql = "insert into players values(?, ?)";
+            pstmt = connection.prepareStatement(sql);
+            pstmt.setString(1, uuid.toString());
+            pstmt.setString(2, password);
+            pstmt.executeUpdate();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public String Get_Password(UUID uuid) {
+        ExecutorService service = Executors.newFixedThreadPool(1);
+        service.submit(() -> new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                Connection connection = null;
+                PreparedStatement pstmt = null;
+                ResultSet rs = null;
+                try {
+                    Class.forName("com.mysql.jdbc.Driver");
+
+                    connection = DriverManager.getConnection(url + "/registers", user, password);
+
+                    pstmt = connection.prepareStatement(url);
+                    rs = pstmt.executeQuery();
+                    while(rs.next()) {
+                        if(rs.getString("uuid").equals(uuid.toString())) {
+                            return rs.getString("password");
+                        }
+                    }
+                } catch (SQLException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        if (connection != null) connection.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+                return null;
+            }
+        });
+        return null;
     }
 }
