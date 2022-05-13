@@ -1,6 +1,5 @@
 package com.cosine.mysql;
 
-import com.cosine.config.Config;
 import com.cosine.register.Register;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -14,10 +13,10 @@ import static com.cosine.register.Register.join;
 
 public class Event implements Listener {
 
-    Register plugin;
-    MySQL mysql;
+    final Register plugin;
+    final MySQL mysql;
 
-    ConfigurationSection config;
+    private final ConfigurationSection config;
 
     public Event(Register plugin) {
         this.plugin = plugin;

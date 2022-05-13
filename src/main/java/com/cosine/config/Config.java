@@ -5,11 +5,12 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 public class Config {
 
     public String fileName;
-    private JavaPlugin plugin;
+    private final JavaPlugin plugin;
     public File ConfigFile;
     private FileConfiguration Configuration;
 
@@ -28,8 +29,8 @@ public class Config {
 
     public void reloadConfig() {
         try {
-            this.Configuration = YamlConfiguration.loadConfiguration(new InputStreamReader(new FileInputStream(this.ConfigFile), "UTF-8"));
-        } catch (UnsupportedEncodingException | FileNotFoundException e) {
+            this.Configuration = YamlConfiguration.loadConfiguration(new InputStreamReader(new FileInputStream(this.ConfigFile), StandardCharsets.UTF_8));
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         InputStream defConfigStream = this.plugin.getResource(this.fileName);

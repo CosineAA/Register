@@ -5,19 +5,17 @@ import com.cosine.register.Register;
 import java.sql.*;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 public class MySQL {
 
-    Register plugin;
+    final Register plugin;
 
     String result;
 
-    String url;
-    String user;
-    String password;
+    final String url;
+    final String user;
+    final String password;
 
     public MySQL(Register plugin, String url, String user, String password) {
         this.plugin = plugin;

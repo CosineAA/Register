@@ -14,13 +14,13 @@ import static com.cosine.register.Register.join;
 
 public class Login implements CommandExecutor {
 
-    Register plugin;
-    MySQL mysql;
+    final Register plugin;
+    final MySQL mysql;
 
-    Config cfg;
-    Config registerConfig;
-    ConfigurationSection config;
-    ConfigurationSection register;
+    final Config cfg;
+    final Config registerConfig;
+    final ConfigurationSection config;
+    final ConfigurationSection register;
 
     public Login(Register plugin) {
         this.plugin = plugin;
