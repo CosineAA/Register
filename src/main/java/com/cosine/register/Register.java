@@ -6,10 +6,7 @@ import com.cosine.mysql.Login;
 import com.cosine.mysql.MySQL;
 import com.cosine.mysql.SignUp;
 import com.cosine.utils.Utils;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.sql.*;
 
 public final class Register extends JavaPlugin {
 
